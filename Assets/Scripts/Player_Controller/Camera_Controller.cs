@@ -4,15 +4,27 @@ using UnityEngine;
 
 public class Camera_Controller : MonoBehaviour
 {
-    // Start is called before the first frame update
+    //Variebale
+    [SerializeField] float mouse_Sensitivity;
+
+    //Refs
+    private Transform parent;
+
     void Start()
     {
-        
+        //Parent the camera to the player.
+        parent = transform.parent;   
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        Rotate();
+    }
+
+    void Rotate()
+    {
+        float mouseX = Input.GetAxis("Mouse X") * mouse_Sensitivity * Time.deltaTime;
+
+        //parent.Rotate(Vector3.up, mouseX);
     }
 }
