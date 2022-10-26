@@ -7,6 +7,8 @@ public class Player_Animation_Controller : MonoBehaviour
     //Variebale
     [SerializeField] float move_Speed;
     [SerializeField] float walk_Speed;
+    [SerializeField] float back_Speed;
+    [SerializeField] float strafing_Speed;
     [SerializeField] float run_Speed;
     private Vector3 move_Dir;
 
@@ -34,16 +36,23 @@ public class Player_Animation_Controller : MonoBehaviour
 
         bool inputShift = Input.GetKey(KeyCode.LeftShift);
 
+        bool inputS = Input.GetKey(KeyCode.S);
+
         move_Dir = new Vector3(moveX, 0, moveZ);
 
         //makes it so that our forward is the local forward instead of the worlds forward. 
         move_Dir = transform.TransformDirection(move_Dir);
 
-        if (move_Dir != Vector3.zero && !inputShift)
+        if (move_Dir != Vector3.zero && !inputShift && !inputS)
         {
             WalkForward();
         }
-        else if (move_Dir != Vector3.zero && inputShift)
+
+        else if(inputS && !inputShift && move_Dir != Vector3.zero)
+        { 
+            WalkBack();
+        }
+        else if (move_Dir != Vector3.zero && inputShift && !inputS)
         {
             Run();
         }
@@ -54,6 +63,7 @@ public class Player_Animation_Controller : MonoBehaviour
 
         move_Dir *= move_Speed;
 
+        //Moves the player.
         player_CC.Move(move_Dir * Time.deltaTime);
     }
 
@@ -70,30 +80,10 @@ public class Player_Animation_Controller : MonoBehaviour
 
     private void WalkBack()
     {
-        move_Speed = walk_Speed;
-        player_anim.SetFloat("Velocity X", -1f, 0.1f, Time.deltaTime);
-    }
-
-    private void WalkLeft()
-    {
+        move_Speed = back_Speed;
+        player_anim.SetFloat("Velocity X", -2f, 0.1f, Time.deltaTime);
 
     }
-
-    private void RunLeft()
-    {
-
-    }
-
-    private void WalkRight()
-    {
-
-    }
-
-    private void RunRight()
-    {
-
-    }
-
     private void Run()
     {
         move_Speed = run_Speed;
